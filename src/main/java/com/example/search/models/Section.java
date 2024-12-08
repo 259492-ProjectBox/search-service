@@ -1,4 +1,4 @@
-package com.example.search.Model;
+package com.example.search.models;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
@@ -12,11 +12,9 @@ public class Section {
     @Id
     private int id;
 
-    @Field(type = FieldType.Keyword)
     @SerializedName("section_number")
     private String sectionNumber;
 
-    @Field(type = FieldType.Integer)
     @SerializedName("semester")
     private int semester;
 }

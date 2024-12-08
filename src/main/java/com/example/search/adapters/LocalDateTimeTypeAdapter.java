@@ -1,4 +1,4 @@
-package com.example.search.Adapters;
+package com.example.search.adapters;
 
 import com.google.gson.*;
 

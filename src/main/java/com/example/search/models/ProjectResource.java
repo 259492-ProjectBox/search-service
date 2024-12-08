@@ -1,4 +1,4 @@
-package com.example.search.Model;
+package com.example.search.models;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
@@ -6,13 +6,11 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Data
-public class Major {
+public class ProjectResource {
 
-    @Field(type = FieldType.Keyword)
     @SerializedName("id")
-    private String id;
+    private Integer id;
 
-    @Field(type = FieldType.Text)
-    @SerializedName("major_name")
-    private String majorName;
+    @SerializedName("resource")
+    private Resource resource;
 }

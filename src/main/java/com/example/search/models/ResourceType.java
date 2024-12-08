@@ -1,4 +1,4 @@
-package com.example.search.Model;
+package com.example.search.models;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
@@ -14,7 +14,6 @@ public class ResourceType {
     @Id
     private Integer id;
 
-    @Field(type = FieldType.Text)
     @SerializedName("resource_type")
     private String resourceType;
 }

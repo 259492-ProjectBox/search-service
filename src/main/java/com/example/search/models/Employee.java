@@ -1,30 +1,36 @@
-package com.example.search.Model;
+package com.example.search.models;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.util.List;
+
 @Data
 public class Employee {
 
-    @Field(type = FieldType.Keyword)
     @SerializedName("id")
-    private String id;
+    private Integer id;
 
-    @Field(type = FieldType.Text)
     @SerializedName("prefix")
     private String prefix;
 
-    @Field(type = FieldType.Text)
     @SerializedName("first_name")
     private String firstName;
 
-    @Field(type = FieldType.Text)
     @SerializedName("last_name")
     private String lastName;
 
-    @Field(type = FieldType.Keyword)
     @SerializedName("email")
     private String email;
+
+    @SerializedName("major_id")
+    private Integer majorId;
+
+    @SerializedName("major")
+    private Major major;
+
+    @SerializedName("projects")
+    private List<Project> projects;
 }
