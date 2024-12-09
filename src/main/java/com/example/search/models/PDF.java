@@ -10,12 +10,15 @@ import java.time.LocalDateTime;
 @Data
 public class PDF {
 
+    @Field(type = FieldType.Text)
     @SerializedName("title")
     private String title;
 
+    @Field(type = FieldType.Text)
     @SerializedName("content")
     private String content;
 
+    @Field(type = FieldType.Text)
     @SerializedName("created_at")
-    private LocalDateTime createdAt;
+    private String createdAt;
 }

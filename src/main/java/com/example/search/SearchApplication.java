@@ -19,7 +19,7 @@ public class SearchApplication {
 
 	@Bean
 	Queue queue() {
-		return new Queue(queueName, false);
+		return new Queue(queueName, true);
 	}
 
 	@Bean

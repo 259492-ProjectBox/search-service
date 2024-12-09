@@ -1,6 +1,5 @@
 package com.example.search;
 
-import com.example.search.adapters.LocalDateTimeTypeAdapter;
 import com.example.search.dtos.ProjectMessage;
 import com.example.search.models.Project;
 import com.example.search.services.ProjectService;
@@ -8,8 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 import java.util.concurrent.CountDownLatch;
 
 @Component
@@ -22,7 +19,6 @@ public class Receiver {
     public void receiveMessage(byte[] message) {
         try {
             Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
                     .create();
 
             String messageStr = new String(message);
@@ -31,7 +27,6 @@ public class Receiver {
 
             String operation = projectMessage.getOperation();
             Project project = projectMessage.getData();
-
             switch (operation.toLowerCase()) {
                 case "create":
                     projectService.createProject(project);

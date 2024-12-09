@@ -12,8 +12,11 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class ResourceType {
 
     @Id
+    @Field(type = FieldType.Keyword)
+    @SerializedName("id")
     private Integer id;
 
-    @SerializedName("resource_type")
-    private String resourceType;
+    @Field(type = FieldType.Text)
+    @SerializedName("mime_type")
+    private String mimeType;
 }
