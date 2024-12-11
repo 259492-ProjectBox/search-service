@@ -47,7 +47,7 @@ public class Project {
 
     @Field(type = FieldType.Text)
     @SerializedName("created_at")
-    private String  createdAt;
+    private String createdAt;
 
     @Field(type = FieldType.Text)
     @SerializedName("section_id")
@@ -73,7 +73,7 @@ public class Project {
     @SerializedName("members")
     private List<Student> members;
 
-    @Field(type = FieldType.Nested, includeInParent = true)
+    @Field(type = FieldType.Nested)
     @SerializedName("project_resources")
     private List<ProjectResource> projectResources;
 }

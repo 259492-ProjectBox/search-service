@@ -15,7 +15,7 @@ public class ProjectResource {
     @SerializedName("id")
     private Integer id;
 
-    @Field(type = FieldType.Object)
+    @Field(type = FieldType.Nested)
     @SerializedName("resource")
     private Resource resource;
 }

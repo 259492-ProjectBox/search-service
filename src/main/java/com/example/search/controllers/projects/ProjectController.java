@@ -16,6 +16,15 @@ import java.util.Optional;
 public class ProjectController {
     private final ProjectService projectService;
 
+    @GetMapping("/content/{searchInput}")
+    public ResponseEntity<?> getProjectsById(@PathVariable String searchInput) {
+        try {
+            List<Project> project = projectService.getByContentPDF(searchInput);
+            return ResponseEntity.status(HttpStatus.OK).body(project);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Input");
+        }
+    }
     @GetMapping("/student/{studentId}")
     public ResponseEntity<?> getProjectsByStudentId(@PathVariable String studentId) {
         try {
@@ -30,7 +39,7 @@ public class ProjectController {
     }
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<?> getProjectsById(@PathVariable String projectId) {
+    public ResponseEntity<?> getProjectsById(@PathVariable Integer projectId) {
         try {
             Optional<Project> project = projectService.getProjectById(projectId);
             return ResponseEntity.status(HttpStatus.OK).body(project);
@@ -38,5 +47,7 @@ public class ProjectController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid student ID");
         }
     }
+
+
 }
 

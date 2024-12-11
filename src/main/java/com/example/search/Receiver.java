@@ -23,28 +23,28 @@ public class Receiver {
 
             String messageStr = new String(message);
             ProjectMessage projectMessage = gson.fromJson(messageStr, ProjectMessage.class);
-            System.out.println("Received Project: " + projectMessage.getData());
 
             String operation = projectMessage.getOperation();
             Project project = projectMessage.getData();
+            System.out.println(project.getProjectResources());
             switch (operation.toLowerCase()) {
                 case "create":
                     projectService.createProject(project);
-                    System.out.println("Project created: " + project);
+                    System.out.println("Project created");
                     break;
 
                 case "update":
                     projectService.updateProject(project);
-                    System.out.println("Project updated: " + project);
+                    System.out.println("Project updated");
                     break;
 
                 case "delete":
-                    projectService.deleteProject(project.getId().toString());
-                    System.out.println("Project deleted with ID: " + project.getId());
+                    projectService.deleteProject(project.getId());
+                    System.out.println("Project deleted with ID");
                     break;
 
                 default:
-                    System.out.println("Unknown operation: " + operation);
+                    System.out.println("Unknown operation");
                     break;
             }
 

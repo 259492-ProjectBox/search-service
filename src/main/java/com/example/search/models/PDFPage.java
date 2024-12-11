@@ -3,19 +3,23 @@ package com.example.search.models;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-
 @Data
-public class Major {
+public class PDFPage {
 
     @Id
-    @Field(type = FieldType.Keyword)
-    @SerializedName("id")
-    private Integer id;
+    private int id;
+
+    @Field(type = FieldType.Integer)
+    @SerializedName("pdf_id")
+    private int pdfId;
+
+    @Field(type = FieldType.Integer)
+    @SerializedName("page_number")
+    private int pageNumber;
 
     @Field(type = FieldType.Text)
-    @SerializedName("major_name")
-    private String majorName;
+    private String content;
+
 }

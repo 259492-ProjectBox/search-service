@@ -19,9 +19,13 @@ public class ProjectService {
     }
 
     public List<Project> getProjectsByStudentId(String studentId) {
+        System.out.println(studentId);
         return projectRepository.findByStudentId(studentId);
     }
-    public Optional<Project> getProjectById(String id) {
+    public List<Project> getByContentPDF(String input) {
+        return projectRepository.findByContentPDF(input);
+    }
+    public Optional<Project> getProjectById(Integer id) {
         return projectRepository.findById(id);
     }
 
@@ -32,7 +36,7 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
-    public void deleteProject(String id) {
+    public void deleteProject(Integer id) {
         projectRepository.deleteById(id);
     }
 }

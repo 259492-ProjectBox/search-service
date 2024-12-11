@@ -33,6 +33,10 @@ public class Resource {
     @SerializedName("resource_type_id")
     private Integer resourceTypeId;
 
+    @Field(type = FieldType.Nested)
+    @SerializedName("pdf")
+    private PDF pdf;
+
     @Field(type = FieldType.Object)
     @SerializedName("resource_type")
     private ResourceType resourceType;
