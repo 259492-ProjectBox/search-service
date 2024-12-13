@@ -1,7 +1,7 @@
 package com.example.search.repositories;
-
 import com.example.search.models.Project;
 import org.springframework.data.elasticsearch.annotations.Query;
+import org.springframework.data.elasticsearch.annotations.SourceFilters;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 import java.util.List;
@@ -22,6 +22,7 @@ public interface ProjectRepository extends ElasticsearchRepository<Project, Inte
           }
         }
         """)
+    @SourceFilters(excludes = "*.pdf")
     List<Project> findByStudentId(String studentId);
 
     @Query("""
@@ -39,6 +40,7 @@ public interface ProjectRepository extends ElasticsearchRepository<Project, Inte
           }
         }
         """)
+    @SourceFilters(excludes = "*.pdf")
     List<Project> findByContentPDF(String input);
 
 

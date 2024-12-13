@@ -1,4 +1,4 @@
-package com.example.search.controllers.projects;
+package com.example.search.controllers;
 
 import com.example.search.models.Project;
 import com.example.search.services.ProjectService;
