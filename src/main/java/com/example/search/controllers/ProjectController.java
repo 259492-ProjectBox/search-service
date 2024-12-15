@@ -3,6 +3,7 @@ package com.example.search.controllers;
 import com.example.search.models.Project;
 import com.example.search.services.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,30 +12,29 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/projects") // v1 Controller
+@RequestMapping("/api/v1/projects")
 @RequiredArgsConstructor
 public class ProjectController {
     private final ProjectService projectService;
-
-    @GetMapping("/content/{searchInput}")
-    public ResponseEntity<?> getProjectsById(@PathVariable String searchInput) {
+    @GetMapping("/content")
+    public ResponseEntity<?> searchProjectsByPDFContent(@RequestParam String searchInput) {
         try {
-            List<Project> project = projectService.getByContentPDF(searchInput);
-            return ResponseEntity.status(HttpStatus.OK).body(project);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Input");
-        }
-    }
-    @GetMapping("/student/{studentId}")
-    public ResponseEntity<?> getProjectsByStudentId(@PathVariable String studentId) {
-        try {
-            List<Project> projects = projectService.getProjectsByStudentId(studentId);
-            if (projects.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(projects);
-            }
+            List<Project> projects = projectService.getByPDFContent(searchInput);
             return ResponseEntity.status(HttpStatus.OK).body(projects);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid student ID");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/fields")
+    public ResponseEntity<?> searchProjectsBySelectedFields(@RequestParam("fields[]") List<String> fields , @RequestParam("searchInput") String searchInput) {
+        try {
+            List<Project> projects = projectService.getProjectsBySelectedFields(fields , searchInput);
+            return ResponseEntity.status(HttpStatus.OK).body(projects);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred: " + e.getMessage());
         }
     }
 
@@ -44,7 +44,8 @@ public class ProjectController {
             Optional<Project> project = projectService.getProjectById(projectId);
             return ResponseEntity.status(HttpStatus.OK).body(project);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid student ID");
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 

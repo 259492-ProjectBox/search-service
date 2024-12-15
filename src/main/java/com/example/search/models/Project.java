@@ -6,6 +6,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -33,11 +36,11 @@ public class Project {
     @SerializedName("abstract_text")
     private String abstractText;
 
-    @Field(type = FieldType.Integer)
+    @Field(type = FieldType.Text)
     @SerializedName("academic_year")
     private Integer academicYear;
 
-    @Field(type = FieldType.Integer)
+    @Field(type = FieldType.Text)
     @SerializedName("semester")
     private Integer semester;
 

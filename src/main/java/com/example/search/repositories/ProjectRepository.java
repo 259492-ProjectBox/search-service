@@ -1,4 +1,5 @@
 package com.example.search.repositories;
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import com.example.search.models.Project;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.annotations.SourceFilters;
@@ -8,23 +9,22 @@ import java.util.List;
 
 public interface ProjectRepository extends ElasticsearchRepository<Project, Integer> {
 
-    @Query("""
-        {
-          "nested": {
-            "path": "members",
-            "query": {
-              "wildcard": {
-                "members.id": {
-                  "value": "*?0*"
-                }
-              }
-            }
-          }
-        }
-        """)
-    @SourceFilters(excludes = "*.pdf")
-    List<Project> findByStudentId(String studentId);
-
+//    @Query("""
+//        {
+//          "nested": {
+//            "path": "members",
+//            "query": {
+//              "wildcard": {
+//                "members.id": {
+//                  "value": "*?0*"
+//                }
+//              }
+//            }
+//          }
+//        }
+//        """)
+//    @SourceFilters(excludes = "*.pdf")
+//List<Project> getByPDFContent(String input);
     @Query("""
         {
           "nested": {
@@ -41,7 +41,7 @@ public interface ProjectRepository extends ElasticsearchRepository<Project, Inte
         }
         """)
     @SourceFilters(excludes = "*.pdf")
-    List<Project> findByContentPDF(String input);
+    List<Project> getByPDFContent(String input);
 
 
 

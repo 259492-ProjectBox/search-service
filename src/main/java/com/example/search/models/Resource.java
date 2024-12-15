@@ -22,6 +22,14 @@ public class Resource {
     private String title;
 
     @Field(type = FieldType.Text)
+    @SerializedName("resource_name")
+    private String resourceName;
+
+    @Field(type = FieldType.Text)
+    @SerializedName("path")
+    private String path;
+
+    @Field(type = FieldType.Text)
     @SerializedName("url")
     private String url;
 
