@@ -23,17 +23,6 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final UploadService uploadService;
     public void createProject(Project project) {
-//        if (!project.getStaffs().isEmpty()) {
-//            if (!project.getStaffs().isEmpty()) {
-//                project.getStaffs().get(0).getProjectRole().setId(1);
-//                project.getStaffs().get(0).getProjectRole().setRoleName("Advisor");
-//            }
-//            if (project.getStaffs().size() >= 2) {
-//                project.getStaffs().get(0).getProjectRole().setId(2);
-//                project.getStaffs().get(0).getProjectRole().setRoleName("Committee");
-//            }
-//        }
-
         projectRepository.save(project);
     }
 
@@ -43,7 +32,8 @@ public class ProjectService {
                 Resource resource = projectResource.getResource();
                 String bucketName = "projects";
                 String path = resource.getPath();
-                projectResource.getResource().setUrl(uploadService.getPresignedURL(bucketName , path));
+                String objectName = path.substring((bucketName+"/").length());
+                projectResource.getResource().setUrl(uploadService.getPresignedURL(bucketName , objectName));
             }
         }
     }
