@@ -9,7 +9,6 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
-import org.springframework.data.elasticsearch.core.query.CriteriaQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +23,17 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final UploadService uploadService;
     public void createProject(Project project) {
+//        if (!project.getStaffs().isEmpty()) {
+//            if (!project.getStaffs().isEmpty()) {
+//                project.getStaffs().get(0).getProjectRole().setId(1);
+//                project.getStaffs().get(0).getProjectRole().setRoleName("Advisor");
+//            }
+//            if (project.getStaffs().size() >= 2) {
+//                project.getStaffs().get(0).getProjectRole().setId(2);
+//                project.getStaffs().get(0).getProjectRole().setRoleName("Committee");
+//            }
+//        }
+
         projectRepository.save(project);
     }
 
@@ -31,11 +41,9 @@ public class ProjectService {
         if (projectResources != null) {
             for (ProjectResource projectResource : projectResources) {
                 Resource resource = projectResource.getResource();
+                String bucketName = "projects";
                 String path = resource.getPath();
-                String[] parts = path.split("/", 2);
-                String bucketName = parts[0];
-                String pathName = parts.length > 1 ? parts[1] : "";
-                projectResource.getResource().setUrl(uploadService.getPresignedURL(bucketName , pathName));
+                projectResource.getResource().setUrl(uploadService.getPresignedURL(bucketName , path));
             }
         }
     }

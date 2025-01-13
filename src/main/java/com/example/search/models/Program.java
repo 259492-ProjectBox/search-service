@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Data
-public class Course {
+public class Program {
 
     @Id
     @Field(type = FieldType.Keyword)
@@ -16,18 +16,6 @@ public class Course {
     private Integer id;
 
     @Field(type = FieldType.Text)
-    @SerializedName("course_no")
-    private String courseNo;
-
-    @Field(type = FieldType.Text)
-    @SerializedName("course_name")
-    private String courseName;
-
-    @Field(type = FieldType.Integer)
-    @SerializedName("major_id")
-    private Integer majorId;
-
-    @Field(type = FieldType.Object)
-    @SerializedName("program")
-    private Program program;
+    @SerializedName("program_name")
+    private String programName;
 }

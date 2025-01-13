@@ -16,7 +16,7 @@ import java.util.List;
 public class Project {
 
     @Id
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Keyword )
     @SerializedName("id")
     private Integer id;
 
@@ -24,7 +24,7 @@ public class Project {
     @SerializedName("project_no")
     private String projectNo;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text , analyzer = "thai")
     @SerializedName("title_th")
     private String titleTH;
 
@@ -32,7 +32,7 @@ public class Project {
     @SerializedName("title_en")
     private String titleEN;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text , analyzer = "thai")
     @SerializedName("abstract_text")
     private String abstractText;
 
@@ -43,10 +43,6 @@ public class Project {
     @Field(type = FieldType.Text)
     @SerializedName("semester")
     private Integer semester;
-
-    @Field(type = FieldType.Boolean)
-    @SerializedName("is_approved")
-    private Boolean isApproved;
 
     @Field(type = FieldType.Text)
     @SerializedName("created_at")
@@ -61,18 +57,18 @@ public class Project {
     private Integer majorId;
 
     @Field(type = FieldType.Object)
-    @SerializedName("major")
-    private Major major;
+    @SerializedName("program")
+    private Program program;
 
     @Field(type = FieldType.Object)
     @SerializedName("course")
     private Course course;
 
-    @Field(type = FieldType.Nested, includeInParent = true)
-    @SerializedName("employees")
-    private List<Employee> employees;
+    @Field(type = FieldType.Nested)
+    @SerializedName("staffs")
+    private List<ProjectStaff> staffs;
 
-    @Field(type = FieldType.Nested, includeInParent = true)
+    @Field(type = FieldType.Nested)
     @SerializedName("members")
     private List<Student> members;
 

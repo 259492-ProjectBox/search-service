@@ -12,31 +12,31 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class Student {
 
     @Id
-    @Field(type = FieldType.Text) // Ensuring full-text search on the id field
+    @Field(type = FieldType.Text)
     @SerializedName("id")
     private String id;
 
-    @Field(type = FieldType.Text) // Full-text search on prefix
+    @Field(type = FieldType.Text)
     @SerializedName("prefix")
     private String prefix;
 
-    @Field(type = FieldType.Text) // Full-text search on firstName
+    @Field(type = FieldType.Text , analyzer = "thai")
     @SerializedName("first_name")
     private String firstName;
 
-    @Field(type = FieldType.Text) // Full-text search on lastName
+    @Field(type = FieldType.Text, analyzer = "thai")
     @SerializedName("last_name")
     private String lastName;
 
-    @Field(type = FieldType.Text) // Full-text search on email
+    @Field(type = FieldType.Text)
     @SerializedName("email")
     private String email;
 
-    @Field(type = FieldType.Integer) // Major ID as integer (not a text field)
+    @Field(type = FieldType.Integer)
     @SerializedName("major_id")
     private Integer majorId;
 
-    @Field(type = FieldType.Object) // Major as a nested object
-    @SerializedName("major")
-    private Major major;
+    @Field(type = FieldType.Object)
+    @SerializedName("program")
+    private Program program;
 }

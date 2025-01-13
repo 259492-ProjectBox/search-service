@@ -19,7 +19,7 @@ public class PDFPage {
     @SerializedName("page_number")
     private int pageNumber;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text , analyzer = "thai")
     private String content;
 
 }

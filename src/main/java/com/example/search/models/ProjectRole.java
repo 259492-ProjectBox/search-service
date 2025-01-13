@@ -8,14 +8,16 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Data
-public class Major {
+@Document(indexName = "project_roles")
+public class ProjectRole {
 
     @Id
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Keyword )
     @SerializedName("id")
     private Integer id;
 
     @Field(type = FieldType.Text)
-    @SerializedName("major_name")
-    private String majorName;
+    @SerializedName("role_name")
+    private String roleName;
+
 }

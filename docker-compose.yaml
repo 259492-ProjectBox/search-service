@@ -1,42 +1,54 @@
 services:
+#  search_service:
+#    build: .
+#    container_name: search_service
+#    depends_on:
+#      - elastic_search
+#      - kibana
+#    networks:
+#      - project_box_net
+#    ports:
+#      - "8081:8081"
+#    restart: unless-stopped
+
   elastic_search:
     image: elasticsearch:8.16.0
-    container_name: elastic_search
+    container_name: ${ELASTIC_CONTAINER_NAME}
     ports:
-      - "9200:9200"  # HTTP port for accessing the REST API
-      - "9300:9300"  # TCP transport port for inter-node communication (if using clusters)
+      - "${ELASTIC_HTTP_PORT}:9200"
+      - "${ELASTIC_TCP_PORT}:9300"
     volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data  # Use a named volume for data persistence
+      - elasticsearch_data:/usr/share/elasticsearch/data
     environment:
-      - discovery.type=single-node  # Required for single-node Elasticsearch
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m  # Optional: Set memory options (adjust as necessary)
-      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=${ES_JAVA_OPTS}
+      - xpack.security.enabled=${XPACK_SECURITY_ENABLED}
     networks:
-      - elk_network
+      - project_box_net
     restart: unless-stopped
     tty: true
 
   kibana:
     image: kibana:8.16.0
-    container_name: kibana
+    container_name: ${KIBANA_CONTAINER_NAME}
     environment:
       - ELASTICSEARCH_HOSTS=http://elastic_search:9200
     ports:
-      - "5601:5601"
+      - "${KIBANA_PORT}:5601"
     volumes:
-      - kibana_data:/usr/share/kibana/data  # Use a named volume for Kibana data persistence
+      - kibana_data:/usr/share/kibana/data
     restart: unless-stopped
     depends_on:
       - elastic_search
     networks:
-      - elk_network
+      - project_box_net
+
 
 networks:
-  elk_network:
-    driver: bridge
-
+  project_box_net:
+    external: true
 volumes:
   elasticsearch_data:
     driver: local
   kibana_data:
-    driver: local  # Added named volume for Kibana
+    driver: local

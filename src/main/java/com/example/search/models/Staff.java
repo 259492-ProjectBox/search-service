@@ -10,22 +10,22 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.List;
 
 @Data
-public class Employee {
+public class Staff {
 
     @Id
     @Field(type = FieldType.Keyword)
     @SerializedName("id")
     private Integer id;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text , analyzer = "thai")
     @SerializedName("prefix")
     private String prefix;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text , analyzer = "thai")
     @SerializedName("first_name")
     private String firstName;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text , analyzer = "thai")
     @SerializedName("last_name")
     private String lastName;
 
@@ -38,7 +38,7 @@ public class Employee {
     private Integer majorId;
 
     @Field(type = FieldType.Object)
-    @SerializedName("major")
-    private Major major;
+    @SerializedName("program")
+    private Program program;
 
 }

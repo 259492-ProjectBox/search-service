@@ -17,7 +17,7 @@ public class Resource {
     @SerializedName("id")
     private Integer id;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, analyzer = "thai")
     @SerializedName("title")
     private String title;
 

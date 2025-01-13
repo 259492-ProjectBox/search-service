@@ -1,5 +1,6 @@
 package com.example.search.models;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -16,6 +17,7 @@ public class PDF {
     private int id;
 
     @Field(type = FieldType.Integer)
+    @SerializedName("resource_id")
     private int resourceId;
 
     @Field(type = FieldType.Nested)
