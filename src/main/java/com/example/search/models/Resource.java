@@ -37,15 +37,23 @@ public class Resource {
     @SerializedName("created_at")
     private String createdAt;
 
-    @Field(type = FieldType.Integer)
-    @SerializedName("resource_type_id")
-    private Integer resourceTypeId;
-
     @Field(type = FieldType.Nested)
     @SerializedName("pdf")
     private PDF pdf;
 
+    @Field(type = FieldType.Integer)
+    @SerializedName("resource_type_id")
+    private Integer resourceTypeId;
+
     @Field(type = FieldType.Object)
     @SerializedName("resource_type")
     private ResourceType resourceType;
+
+    @Field(type = FieldType.Integer)
+    @SerializedName("file_extension_id")
+    private Integer fileExtensionId;
+
+    @Field(type = FieldType.Object)
+    @SerializedName("file_extension")
+    private FileExtension file_extension;
 }

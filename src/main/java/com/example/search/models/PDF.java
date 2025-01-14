@@ -12,9 +12,10 @@ import java.util.List;
 @Data
 @Document(indexName = "pdfs")
 public class PDF {
-
     @Id
-    private int id;
+    @Field(type = FieldType.Keyword)
+    @SerializedName("id")
+    private Integer id;
 
     @Field(type = FieldType.Integer)
     @SerializedName("resource_id")

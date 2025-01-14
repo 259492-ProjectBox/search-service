@@ -9,7 +9,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class PDFPage {
 
     @Id
-    private int id;
+    @Field(type = FieldType.Keyword)
+    @SerializedName("id")
+    private Integer id;
 
     @Field(type = FieldType.Integer)
     @SerializedName("pdf_id")

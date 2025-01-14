@@ -9,7 +9,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Data
 public class Course {
-
     @Id
     @Field(type = FieldType.Keyword)
     @SerializedName("id")

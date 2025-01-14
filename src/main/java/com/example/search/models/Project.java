@@ -14,9 +14,8 @@ import java.util.List;
 @Data
 @Document(indexName = "projects")
 public class Project {
-
     @Id
-    @Field(type = FieldType.Keyword )
+    @Field(type = FieldType.Keyword)
     @SerializedName("id")
     private Integer id;
 
@@ -45,10 +44,6 @@ public class Project {
     private Integer semester;
 
     @Field(type = FieldType.Text)
-    @SerializedName("created_at")
-    private String createdAt;
-
-    @Field(type = FieldType.Text)
     @SerializedName("section_id")
     private String sectionId;
 
@@ -75,4 +70,8 @@ public class Project {
     @Field(type = FieldType.Nested)
     @SerializedName("project_resources")
     private List<ProjectResource> projectResources;
+
+    @Field(type = FieldType.Text)
+    @SerializedName("created_at")
+    private String createdAt;
 }

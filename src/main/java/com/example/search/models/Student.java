@@ -10,7 +10,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Data
 @Document(indexName = "students")
 public class Student {
-
     @Id
     @Field(type = FieldType.Text)
     @SerializedName("id")
