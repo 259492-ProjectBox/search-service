@@ -31,11 +31,4 @@ public class Student {
     @SerializedName("email")
     private String email;
 
-    @Field(type = FieldType.Integer)
-    @SerializedName("major_id")
-    private Integer majorId;
-
-    @Field(type = FieldType.Object)
-    @SerializedName("program")
-    private Program program;
 }

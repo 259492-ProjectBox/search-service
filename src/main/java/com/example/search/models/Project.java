@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -25,14 +26,17 @@ public class Project {
 
     @Field(type = FieldType.Text , analyzer = "thai")
     @SerializedName("title_th")
+    @Nullable
     private String titleTH;
 
     @Field(type = FieldType.Text)
     @SerializedName("title_en")
+    @Nullable
     private String titleEN;
 
     @Field(type = FieldType.Text , analyzer = "thai")
     @SerializedName("abstract_text")
+    @Nullable
     private String abstractText;
 
     @Field(type = FieldType.Text)
@@ -45,15 +49,20 @@ public class Project {
 
     @Field(type = FieldType.Text)
     @SerializedName("section_id")
+    @Nullable
     private String sectionId;
 
     @Field(type = FieldType.Integer)
-    @SerializedName("major_id")
-    private Integer majorId;
+    @SerializedName("program_id")
+    private Integer programId;
 
     @Field(type = FieldType.Object)
     @SerializedName("program")
     private Program program;
+
+    @Field(type = FieldType.Integer)
+    @SerializedName("course_id")
+    private Integer courseId;
 
     @Field(type = FieldType.Object)
     @SerializedName("course")
@@ -74,4 +83,9 @@ public class Project {
     @Field(type = FieldType.Text)
     @SerializedName("created_at")
     private String createdAt;
+
+    @Field(type = FieldType.Text)
+    @SerializedName("updated_at")
+    @Nullable
+    private String updated_at;
 }

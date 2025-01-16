@@ -33,8 +33,8 @@ public class Staff {
     private String email;
 
     @Field(type = FieldType.Integer)
-    @SerializedName("major_id")
-    private Integer majorId;
+    @SerializedName("program_id")
+    private Integer programId;
 
     @Field(type = FieldType.Object)
     @SerializedName("program")

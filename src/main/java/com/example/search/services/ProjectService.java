@@ -30,13 +30,18 @@ public class ProjectService {
         if (projectResources != null) {
             for (ProjectResource projectResource : projectResources) {
                 Resource resource = projectResource.getResource();
+                // Use .equals() for string comparison
+                if (resource.getResourceType().getTypeName().equals("url")) {
+                    continue;
+                }
                 String bucketName = "projects";
                 String path = resource.getPath();
-                String objectName = path.substring((bucketName+"/").length());
-                projectResource.getResource().setUrl(uploadService.getPresignedURL(bucketName , objectName));
+                String objectName = path.substring((bucketName + "/").length());
+                projectResource.getResource().setUrl(uploadService.getPresignedURL(bucketName, objectName));
             }
         }
     }
+
 
     public List<Project> getPresignedURLForProjectResources(List<Project> projects) {
         if (projects == null || projects.isEmpty()) {

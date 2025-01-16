@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 
 @Data
@@ -23,22 +24,21 @@ public class Resource {
 
     @Field(type = FieldType.Text)
     @SerializedName("resource_name")
+    @Nullable
     private String resourceName;
 
     @Field(type = FieldType.Text)
     @SerializedName("path")
+    @Nullable
     private String path;
 
     @Field(type = FieldType.Text)
     @SerializedName("url")
     private String url;
 
-    @Field(type = FieldType.Text)
-    @SerializedName("created_at")
-    private String createdAt;
-
     @Field(type = FieldType.Nested)
     @SerializedName("pdf")
+    @Nullable
     private PDF pdf;
 
     @Field(type = FieldType.Integer)
@@ -51,9 +51,15 @@ public class Resource {
 
     @Field(type = FieldType.Integer)
     @SerializedName("file_extension_id")
+    @Nullable
     private Integer fileExtensionId;
 
     @Field(type = FieldType.Object)
     @SerializedName("file_extension")
-    private FileExtension file_extension;
+    @Nullable
+    private FileExtension fileExtension;
+
+    @Field(type = FieldType.Text)
+    @SerializedName("created_at")
+    private String createdAt;
 }
