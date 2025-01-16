@@ -32,7 +32,7 @@ public interface ProjectRepository extends ElasticsearchRepository<Project, Inte
           }
         }
         """)
-//    @SourceFilters(excludes = "*.pdf")
+    @SourceFilters(excludes = "*.pdf")
     List<Project> getByPDFContent(String input);
 
 
