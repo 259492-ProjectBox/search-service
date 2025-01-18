@@ -20,6 +20,7 @@ public class Resource {
 
     @Field(type = FieldType.Text, analyzer = "thai")
     @SerializedName("title")
+    @Nullable
     private String title;
 
     @Field(type = FieldType.Text)
@@ -34,6 +35,7 @@ public class Resource {
 
     @Field(type = FieldType.Text)
     @SerializedName("url")
+    @Nullable
     private String url;
 
     @Field(type = FieldType.Nested)
