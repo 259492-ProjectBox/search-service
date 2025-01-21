@@ -16,6 +16,10 @@ public class Program {
     private Integer id;
 
     @Field(type = FieldType.Text)
-    @SerializedName("program_name")
-    private String programName;
+    @SerializedName("program_name_th")
+    private String programNameTH;
+
+    @Field(type = FieldType.Text)
+    @SerializedName("program_name_eng")
+    private String programNameEng;
 }

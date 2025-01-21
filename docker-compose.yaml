@@ -7,8 +7,10 @@ services:
       - "8081:8081"
     working_dir: /app
     depends_on:
-      - kibana
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
     networks:
       - project_box_net
 
@@ -28,6 +30,11 @@ services:
       - project_box_net
     restart: unless-stopped
     tty: true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   kibana:
     image: kibana:8.16.0
@@ -40,9 +47,15 @@ services:
       - kibana_data:/usr/share/kibana/data
     restart: unless-stopped
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
     networks:
       - project_box_net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5601"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 networks:
   project_box_net:

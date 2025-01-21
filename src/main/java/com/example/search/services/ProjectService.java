@@ -73,8 +73,6 @@ public class ProjectService {
         return getPresignedURLForProjectResources(projectList);
     }
 
-
-
     public List<Project> getByPDFContent(String input) {
         List<Project> projects = projectRepository.getByPDFContent(input);
         return getPresignedURLForProjectResources(projects);

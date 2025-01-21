@@ -15,10 +15,6 @@ public class Student {
     @SerializedName("id")
     private String id;
 
-    @Field(type = FieldType.Text)
-    @SerializedName("prefix")
-    private String prefix;
-
     @Field(type = FieldType.Text , analyzer = "thai")
     @SerializedName("first_name")
     private String firstName;
