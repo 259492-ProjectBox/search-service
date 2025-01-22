@@ -10,56 +10,47 @@ services:
       - kibana
       - elasticsearch
     networks:
-      - project-service_project_box_net
+      - kunmhing_project_box_net
 
   elasticsearch:
     image: elasticsearch:8.16.0
     container_name: elasticsearch
     ports:
-      - "${ELASTIC_HTTP_PORT}:9200"
-      - "${ELASTIC_TCP_PORT}:9300"
+      - "9200:9200"
+      - "9300:9300"
     volumes:
-      - elasticsearch_data
-    # volumes:
-    #   - ./src/main/java/com/example/search/data:/usr/share/elasticsearch/data
+      - elasticsearch_data:/usr/share/elasticsearch/data
     environment:
       - discovery.type=single-node
-      - ES_JAVA_OPTS=${ES_JAVA_OPTS}
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m 
       - xpack.security.enabled=false
       - xpack.security.transport.ssl.enabled=false
       - xpack.security.http.ssl.enabled=false
     networks:
-      - project-service_project_box_net
+      - kunmhing_project_box_net
     restart: unless-stopped
     tty: true
 
   kibana:
     image: kibana:8.16.0
-    container_name: ${KIBANA_CONTAINER_NAME}
+    container_name: kibana
     environment:
-      - ELASTICSEARCH_HOSTS=${KIBANA_ELASTICSEARCH_HOSTS}
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
       - xpack.security.http.ssl.enabled=false
     ports:  
       - "${KIBANA_PORT}:5601"
     volumes:
       - kibana_data
-    # volumes:
-    #   - kibana_data:/usr/share/kibana/data
     restart: unless-stopped
     depends_on:
-      - elasticsearch
+      - kibana_data:/usr/share/kibana/data
     networks:
-      - project-service_project_box_net
+      - kunmhing_project_box_net
 
 networks:
-  project-service_project_box_net:
+  kunmhing_project_box_net:
     external: true
-
-  # project_box_net:
-    # external: true
 
 volumes:
   elasticsearch_data:
-    # driver: local
   kibana_data:
-    # driver: local
