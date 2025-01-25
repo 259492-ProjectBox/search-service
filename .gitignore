@@ -19,6 +19,7 @@ target/
 *.iml
 *.ipr
 
+src/main/java/com/example/search/data
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
