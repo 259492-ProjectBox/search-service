@@ -11,9 +11,17 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "students")
 public class Student {
     @Id
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("id")
     private String id;
+
+    @Field(type = FieldType.Text)
+    @SerializedName("student_id")
+    private String studentId;
+
+    @Field(type = FieldType.Text)
+    @SerializedName("sec_lab")
+    private String secLab;
 
     @Field(type = FieldType.Text , analyzer = "thai")
     @SerializedName("first_name")
@@ -27,4 +35,27 @@ public class Student {
     @SerializedName("email")
     private String email;
 
+    @Field(type = FieldType.Text)
+    @SerializedName("semester")
+    private Integer semester;
+
+    @Field(type = FieldType.Text)
+    @SerializedName("academic_year")
+    private Integer academicYear;
+
+    @Field(type = FieldType.Integer)
+    @SerializedName("course_id")
+    private Integer courseId;
+
+    @Field(type = FieldType.Object)
+    @SerializedName("course")
+    private Course course;
+
+    @Field(type = FieldType.Integer)
+    @SerializedName("program_id")
+    private Integer programId;
+
+    @Field(type = FieldType.Object)
+    @SerializedName("program")
+    private Program program;
 }
