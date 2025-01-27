@@ -9,7 +9,10 @@ COPY pom.xml /app/
 COPY src /app/src/
 
 # Run Maven to build the JAR file
-RUN mvn clean package -DskipTests
+# RUN mvn clean package -DskipTests
+
+# Run Maven to build the JAR file, completely skipping tests and test compilation
+RUN mvn clean package -Dmaven.test.skip=true
 
 # Production Stage
 FROM eclipse-temurin:21-jdk AS production

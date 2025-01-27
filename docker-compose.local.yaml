@@ -10,7 +10,7 @@ services:
       - kibana
       - elasticsearch
     networks:
-      - kunmhing_project_box_net
+      - project-service_project_box_net
 
   elasticsearch:
     image: elasticsearch:8.16.0
@@ -27,7 +27,7 @@ services:
       - xpack.security.transport.ssl.enabled=false
       - xpack.security.http.ssl.enabled=false
     networks:
-      - kunmhing_project_box_net
+      - project-service_project_box_net
     restart: unless-stopped
     tty: true
 
@@ -45,10 +45,10 @@ services:
     # depends_on:
     #   - kibana_data:/usr/share/kibana/data
     networks:
-      - kunmhing_project_box_net
+      - project-service_project_box_net
 
 networks:
-  kunmhing_project_box_net:
+  project-service_project_box_net:
     external: true
 
 volumes:
