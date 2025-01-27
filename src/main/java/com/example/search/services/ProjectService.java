@@ -2,7 +2,6 @@ package com.example.search.services;
 
 import com.example.search.models.Project;
 import com.example.search.models.ProjectResource;
-import com.example.search.models.Resource;
 import com.example.search.repositories.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -29,15 +28,13 @@ public class ProjectService {
     private void setPresignedUrlsForProjectResources(List<ProjectResource> projectResources) {
         if (projectResources != null) {
             for (ProjectResource projectResource : projectResources) {
-                Resource resource = projectResource.getResource();
-                // Use .equals() for string comparison
-                if (resource.getResourceType().getTypeName().equals("url")) {
+                if (projectResource.getResourceType().getTypeName().equals("url")) {
                     continue;
                 }
                 String bucketName = "projects";
-                String path = resource.getPath();
+                String path = projectResource.getPath();
                 String objectName = path.substring((bucketName + "/").length());
-                projectResource.getResource().setUrl(uploadService.getPresignedURL(bucketName, objectName));
+                projectResource.setUrl(uploadService.getPresignedURL(bucketName, objectName));
             }
         }
     }
