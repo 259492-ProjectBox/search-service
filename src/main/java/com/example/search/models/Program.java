@@ -9,11 +9,14 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Data
 public class Program {
-
     @Id
     @Field(type = FieldType.Keyword)
     @SerializedName("id")
     private Integer id;
+
+    @Field(type = FieldType.Text)
+    @SerializedName("abbreviation")
+    private String abbreviation;
 
     @Field(type = FieldType.Text)
     @SerializedName("program_name_th")

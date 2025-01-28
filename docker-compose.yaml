@@ -7,10 +7,8 @@ services:
       - "8081:8081"
     working_dir: /app
     depends_on:
-      elasticsearch:
-        condition: service_healthy
-      kibana:
-        condition: service_healthy
+      - elasticsearch
+      - kibana
     networks:
       - project_box_net
 
@@ -21,7 +19,7 @@ services:
       - "${ELASTIC_HTTP_PORT}:9200"
       - "${ELASTIC_TCP_PORT}:9300"
     volumes:
-      - ./src/main/java/com/example/search/data:/usr/share/elasticsearch/data
+      - elasticsearch_data:/usr/share/elasticsearch/data
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=${ES_JAVA_OPTS}
@@ -30,11 +28,6 @@ services:
       - project_box_net
     restart: unless-stopped
     tty: true
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9200"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   kibana:
     image: kibana:8.16.0
@@ -47,15 +40,9 @@ services:
       - kibana_data:/usr/share/kibana/data
     restart: unless-stopped
     depends_on:
-      elasticsearch:
-        condition: service_healthy
+      - elasticsearch
     networks:
       - project_box_net
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5601"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
 networks:
   project_box_net:
