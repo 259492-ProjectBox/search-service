@@ -14,7 +14,7 @@ public interface ProjectRepository extends ElasticsearchRepository<Project, Inte
     @Query("""
         {
           "nested": {
-            "path": "projectResources.resource.pdf.pages",
+            "path": "projectResources.pdf.pages",
             "query": {
               "bool": {
                 "must": [
@@ -32,7 +32,7 @@ public interface ProjectRepository extends ElasticsearchRepository<Project, Inte
           }
         }
         """)
-//    @SourceFilters(excludes = "*.pdf")
+    @SourceFilters(excludes = "*.pdf")
     List<Project> getByPDFContent(String input);
 
 
