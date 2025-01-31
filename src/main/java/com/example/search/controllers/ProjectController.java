@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,10 +33,12 @@ public class ProjectController {
 
     @Operation(summary = "Search projects by selected fields", description = "Search projects by specific fields and input value.")
     @GetMapping("/fields")
-    public ResponseEntity<?> searchProjectsBySelectedFields(@RequestParam("fields[]") List<String> fields,
+    public ResponseEntity<?> searchProjectsBySelectedFields(@RequestParam("fields") String fields,
                                                             @RequestParam("searchInput") String searchInput) {
         try {
-            List<Project> projects = projectService.getProjectsBySelectedFields(fields, searchInput);
+            List<String> fieldList = Arrays.asList(fields.split(","));
+
+            List<Project> projects = projectService.getProjectsBySelectedFields(fieldList, searchInput);
             return ResponseEntity.status(HttpStatus.OK).body(projects);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
