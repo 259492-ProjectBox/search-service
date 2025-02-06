@@ -23,6 +23,6 @@ public class Program {
     private String programNameTH;
 
     @Field(type = FieldType.Text)
-    @SerializedName("program_name_eng")
-    private String programNameEng;
+    @SerializedName("program_name_en")
+    private String programNameEN;
 }
