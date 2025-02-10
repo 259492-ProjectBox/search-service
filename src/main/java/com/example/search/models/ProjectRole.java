@@ -16,8 +16,12 @@ public class ProjectRole {
     @SerializedName("id")
     private Integer id;
 
+    @Field(type = FieldType.Text, analyzer = "thai")
+    @SerializedName("role_name_th")
+    private String roleNameTH;
+
     @Field(type = FieldType.Text)
-    @SerializedName("role_name")
-    private String roleName;
+    @SerializedName("role_name_en")
+    private String roleNameEN;
 
 }

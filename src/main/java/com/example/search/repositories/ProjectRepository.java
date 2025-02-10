@@ -20,7 +20,7 @@ public interface ProjectRepository extends ElasticsearchRepository<Project, Inte
                 "must": [
                   {
                     "match": {
-                      "projectResources.resource.pdf.pages.content": {
+                      "projectResources.pdf.pages.content": {
                         "query": "?0",
                         "fuzziness": "AUTO"
                       }

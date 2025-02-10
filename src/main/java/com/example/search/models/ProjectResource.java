@@ -39,7 +39,6 @@ public class ProjectResource {
 
     @Field(type = FieldType.Nested)
     @SerializedName("pdf")
-    @Nullable
     private PDF pdf;
 
     @Field(type = FieldType.Integer)

@@ -17,16 +17,28 @@ public class Staff {
     private Integer id;
 
     @Field(type = FieldType.Text , analyzer = "thai")
-    @SerializedName("prefix")
-    private String prefix;
+    @SerializedName("prefix_th")
+    private String prefixTH;
+
+    @Field(type = FieldType.Text)
+    @SerializedName("prefix_en")
+    private String prefixEN;
 
     @Field(type = FieldType.Text , analyzer = "thai")
-    @SerializedName("first_name")
-    private String firstName;
+    @SerializedName("first_name_th")
+    private String firstNameTH;
 
     @Field(type = FieldType.Text , analyzer = "thai")
-    @SerializedName("last_name")
-    private String lastName;
+    @SerializedName("last_name_th")
+    private String lastNameTH;
+
+    @Field(type = FieldType.Text)
+    @SerializedName("first_name_en")
+    private String firstNameEN;
+
+    @Field(type = FieldType.Text)
+    @SerializedName("last_name_en")
+    private String lastNameEN;
 
     @Field(type = FieldType.Text)
     @SerializedName("email")

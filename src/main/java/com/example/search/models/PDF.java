@@ -18,8 +18,8 @@ public class PDF {
     private Integer id;
 
     @Field(type = FieldType.Integer)
-    @SerializedName("resource_id")
-    private int resourceId;
+    @SerializedName("project_resource_id")
+    private int projectResourceId;
 
     @Field(type = FieldType.Nested)
     private List<PDFPage> pages;
