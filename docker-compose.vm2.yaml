@@ -1,0 +1,58 @@
+services:
+  search_service:
+    image: kunmhing/searchservice:latest
+    container_name: search_service
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    working_dir: /app
+    depends_on:
+      - kibana
+      - elasticsearch
+    networks:
+      - search_service
+
+  elasticsearch:
+    image: elasticsearch:8.16.0
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.security.http.ssl.enabled=false
+    networks:
+      - search_service
+    restart: unless-stopped
+    tty: true
+
+  kibana:
+    image: kibana:8.16.0
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - xpack.security.http.ssl.enabled=false
+    ports:
+      - "5601:5601"
+    volumes:
+      - kibana_data:/usr/share/kibana/data
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+    networks:
+      - search_service
+
+networks:
+  search_service:
+    external: false
+  # kunmhing_project_box_net:
+    # external: true
+
+volumes:
+  elasticsearch_data:
+  kibana_data:
