@@ -33,6 +33,7 @@ public class Student {
 
     @Field(type = FieldType.Text)
     @SerializedName("email")
+    @Nullable
     private String email;
 
     @Field(type = FieldType.Text)
