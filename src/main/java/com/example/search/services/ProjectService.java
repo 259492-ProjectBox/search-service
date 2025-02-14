@@ -8,6 +8,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.query.FetchSourceFilterBuilder;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +61,11 @@ public class ProjectService {
         }
 
         Query searchQuery = new CriteriaQuery(criteria);
+        searchQuery.addSourceFilter(new FetchSourceFilterBuilder()
+                .withIncludes("*")
+                .withExcludes("projectResources.pdf")  // Exclude the `pdf` field inside `projectResources`
+                .build());
+
         final SearchHits<Project> searchResponse = elasticsearchOperations.search(searchQuery, Project.class);
         List<Project> projectList = new ArrayList<>();
         searchResponse.getSearchHits().forEach(hit -> {
