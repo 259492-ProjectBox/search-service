@@ -36,6 +36,10 @@ public class ProjectStaff {
     @SerializedName("first_name_en")
     private String firstNameEN;
 
+   @Field(type = FieldType.Text)
+    @SerializedName("last_name_en")
+    private String lastNameEN;
+
     @Field(type = FieldType.Text)
     @SerializedName("email")
     private String email;

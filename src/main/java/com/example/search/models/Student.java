@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import javax.annotation.Nullable;
 
 @Data
 @Document(indexName = "students")
@@ -33,6 +34,7 @@ public class Student {
 
     @Field(type = FieldType.Text)
     @SerializedName("email")
+    @Nullable
     private String email;
 
     @Field(type = FieldType.Text)
