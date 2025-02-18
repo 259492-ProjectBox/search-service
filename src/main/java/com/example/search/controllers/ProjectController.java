@@ -31,7 +31,7 @@ public class ProjectController {
         }
     }
 
-    @Operation(summary = "Search projects by all fields", description = "Search projects by specific fields and input value.")
+    @Operation(summary = "Search projects by all fields", description = "Search projects by all fields by input value.")
     @GetMapping("/all-fields")
     public ResponseEntity<?> searchProjectsByAllFields(@RequestParam("fields") String fields,
                                                             @RequestParam("searchInput") String searchInput) {
@@ -45,7 +45,7 @@ public class ProjectController {
         }
     }
 
-    @Operation(summary = "Search projects by all fields", description = "Search projects by specific fields and input value.")
+    @Operation(summary = "Search projects by selected fields", description = "Search projects by specific fields by input values.")
     @GetMapping("/selected-fields")
     public ResponseEntity<?> searchProjectsBySelectedFields(@RequestParam("fields") String fields,
                                                        @RequestParam("searchInputs") String searchInputs) {
