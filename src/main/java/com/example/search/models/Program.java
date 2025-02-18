@@ -14,15 +14,15 @@ public class Program {
     @SerializedName("id")
     private Integer id;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("abbreviation")
     private String abbreviation;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("program_name_th")
     private String programNameTH;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("program_name_en")
     private String programNameEN;
 }

@@ -31,14 +31,28 @@ public class ProjectController {
         }
     }
 
-    @Operation(summary = "Search projects by selected fields", description = "Search projects by specific fields and input value.")
-    @GetMapping("/fields")
-    public ResponseEntity<?> searchProjectsBySelectedFields(@RequestParam("fields") String fields,
+    @Operation(summary = "Search projects by all fields", description = "Search projects by specific fields and input value.")
+    @GetMapping("/all-fields")
+    public ResponseEntity<?> searchProjectsByAllFields(@RequestParam("fields") String fields,
                                                             @RequestParam("searchInput") String searchInput) {
         try {
             List<String> fieldList = Arrays.asList(fields.split(","));
+            List<Project> projects = projectService.getProjectsByAllFields(fieldList, searchInput);
+            return ResponseEntity.status(HttpStatus.OK).body(projects);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred: " + e.getMessage());
+        }
+    }
 
-            List<Project> projects = projectService.getProjectsBySelectedFields(fieldList, searchInput);
+    @Operation(summary = "Search projects by all fields", description = "Search projects by specific fields and input value.")
+    @GetMapping("/selected-fields")
+    public ResponseEntity<?> searchProjectsBySelectedFields(@RequestParam("fields") String fields,
+                                                       @RequestParam("searchInputs") String searchInputs) {
+        try {
+            List<String> fieldList = Arrays.asList(fields.split(","));
+            List<String> searchInputList = Arrays.asList(searchInputs.split(","));
+            List<Project> projects = projectService.getProjectsBySelectedFields(fieldList, searchInputList);
             return ResponseEntity.status(HttpStatus.OK).body(projects);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

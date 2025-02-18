@@ -12,15 +12,15 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class ProjectRole {
 
     @Id
-    @Field(type = FieldType.Keyword )
+    @Field(type = FieldType.Keyword)
     @SerializedName("id")
     private Integer id;
 
-    @Field(type = FieldType.Text, analyzer = "thai")
+    @Field(type = FieldType.Keyword)
     @SerializedName("role_name_th")
     private String roleNameTH;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("role_name_en")
     private String roleNameEN;
 

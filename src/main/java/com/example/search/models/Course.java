@@ -14,19 +14,19 @@ public class Course {
     @SerializedName("id")
     private Integer id;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("course_no")
     private String courseNo;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("course_name")
     private String courseName;
 
-    @Field(type = FieldType.Integer)
+    @Field(type = FieldType.Keyword)
     @SerializedName("program_id")
     private Integer programId;
 
-    @Field(type = FieldType.Object)
+    @Field(type = FieldType.Nested)
     @SerializedName("program")
     private Program program;
 }

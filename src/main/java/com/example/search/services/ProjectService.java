@@ -40,7 +40,6 @@ public class ProjectService {
         }
     }
 
-
     public List<Project> getPresignedURLForProjectResources(List<Project> projects) {
         if (projects == null || projects.isEmpty()) {
             return projects;
@@ -54,24 +53,56 @@ public class ProjectService {
         return projects;
     }
 
-    public List<Project> getProjectsBySelectedFields(List<String> fields, String searchInput) {
-        Criteria criteria = new Criteria();
-        for (String field : fields) {
-            criteria = criteria.or(new Criteria(field).contains(searchInput));
+    public List<Project> getProjectsBySelectedFields(List<String> fields, List<String> searchInputList) {
+        Criteria criteria = buildCriteriaForMultipleInputs(fields, searchInputList);
+        return executeSearchQuery(criteria);
+    }
+
+    public List<Project> getProjectsByAllFields(List<String> fields, String searchInput) {
+        Criteria criteria = buildCriteriaForSingleInput(fields, searchInput);
+        return executeSearchQuery(criteria);
+    }
+
+    private Criteria buildCriteriaForMultipleInputs(List<String> fields, List<String> searchInputList) {
+        if (fields.size() != searchInputList.size()) {
+            throw new IllegalArgumentException("Fields and searchInputList must have the same size");
         }
 
+        Criteria criteria = new Criteria();
+
+        for (int i = 0; i < fields.size(); i++) {
+            String searchInput = searchInputList.get(i).trim();
+            String[] tokens = searchInput.split("\\s+");
+            for (String token : tokens) {
+                criteria = criteria.and(new Criteria(fields.get(i)).contains(token));
+            }
+        }
+
+        return criteria;
+    }
+
+
+    private Criteria buildCriteriaForSingleInput(List<String> fields, String searchInput) {
+        Criteria criteria = new Criteria();
+        String[] tokens = searchInput.trim().split("\\s+");
+        for (String token : tokens) {
+            for (String field : fields) {
+                criteria = criteria.or(new Criteria(field).contains(token));
+            }
+        }
+        return criteria;
+    }
+
+    private List<Project> executeSearchQuery(Criteria criteria) {
         Query searchQuery = new CriteriaQuery(criteria);
         searchQuery.addSourceFilter(new FetchSourceFilterBuilder()
                 .withIncludes("*")
-                .withExcludes("projectResources.pdf")  // Exclude the `pdf` field inside `projectResources`
+                .withExcludes("projectResources.pdf")
                 .build());
 
         final SearchHits<Project> searchResponse = elasticsearchOperations.search(searchQuery, Project.class);
         List<Project> projectList = new ArrayList<>();
-        searchResponse.getSearchHits().forEach(hit -> {
-            Project project = hit.getContent();
-            projectList.add(project);
-        });
+        searchResponse.getSearchHits().forEach(hit -> projectList.add(hit.getContent()));
 
         return getPresignedURLForProjectResources(projectList);
     }

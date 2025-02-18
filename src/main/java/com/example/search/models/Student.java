@@ -16,23 +16,23 @@ public class Student {
     @SerializedName("id")
     private String id;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("student_id")
     private String studentId;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("sec_lab")
     private String secLab;
 
-    @Field(type = FieldType.Text , analyzer = "thai")
+    @Field(type = FieldType.Keyword)
     @SerializedName("first_name")
     private String firstName;
 
-    @Field(type = FieldType.Text, analyzer = "thai")
+    @Field(type = FieldType.Keyword)
     @SerializedName("last_name")
     private String lastName;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("email")
     @Nullable
     private String email;
@@ -45,19 +45,19 @@ public class Student {
     @SerializedName("academic_year")
     private Integer academicYear;
 
-    @Field(type = FieldType.Integer)
+    @Field(type = FieldType.Keyword)
     @SerializedName("course_id")
     private Integer courseId;
 
-    @Field(type = FieldType.Object)
+    @Field(type = FieldType.Nested)
     @SerializedName("course")
     private Course course;
 
-    @Field(type = FieldType.Integer)
+    @Field(type = FieldType.Keyword)
     @SerializedName("program_id")
     private Integer programId;
 
-    @Field(type = FieldType.Object)
+    @Field(type = FieldType.Nested)
     @SerializedName("program")
     private Program program;
 }

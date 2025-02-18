@@ -16,39 +16,39 @@ public class Staff {
     @SerializedName("id")
     private Integer id;
 
-    @Field(type = FieldType.Text , analyzer = "thai")
+    @Field(type = FieldType.Keyword)
     @SerializedName("prefix_th")
     private String prefixTH;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("prefix_en")
     private String prefixEN;
 
-    @Field(type = FieldType.Text , analyzer = "thai")
+    @Field(type = FieldType.Keyword)
     @SerializedName("first_name_th")
     private String firstNameTH;
 
-    @Field(type = FieldType.Text , analyzer = "thai")
+    @Field(type = FieldType.Keyword)
     @SerializedName("last_name_th")
     private String lastNameTH;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("first_name_en")
     private String firstNameEN;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("last_name_en")
     private String lastNameEN;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("email")
     private String email;
 
-    @Field(type = FieldType.Integer)
+    @Field(type = FieldType.Keyword)
     @SerializedName("program_id")
     private Integer programId;
 
-    @Field(type = FieldType.Object)
+    @Field(type = FieldType.Nested)
     @SerializedName("program")
     private Program program;
 

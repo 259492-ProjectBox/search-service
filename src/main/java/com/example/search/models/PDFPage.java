@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+
 @Data
 public class PDFPage {
 
@@ -13,7 +14,7 @@ public class PDFPage {
     @SerializedName("id")
     private Integer id;
 
-    @Field(type = FieldType.Integer)
+    @Field(type = FieldType.Keyword)
     @SerializedName("pdf_id")
     private int pdfId;
 
@@ -21,7 +22,6 @@ public class PDFPage {
     @SerializedName("page_number")
     private int pageNumber;
 
-    @Field(type = FieldType.Text , analyzer = "thai")
+    @Field(type = FieldType.Keyword)
     private String content;
-
 }

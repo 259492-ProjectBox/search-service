@@ -17,7 +17,7 @@ public class ProjectResource {
     @SerializedName("id")
     private Integer id;
 
-    @Field(type = FieldType.Text, analyzer = "thai")
+    @Field(type = FieldType.Keyword)
     @SerializedName("title")
     @Nullable
     private String title;
@@ -41,7 +41,7 @@ public class ProjectResource {
     @SerializedName("pdf")
     private PDF pdf;
 
-    @Field(type = FieldType.Integer)
+    @Field(type = FieldType.Keyword)
     @SerializedName("resource_type_id")
     private Integer resourceTypeId;
 

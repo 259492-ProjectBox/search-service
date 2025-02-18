@@ -8,8 +8,6 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.annotation.Nullable;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -20,21 +18,21 @@ public class Project {
     @SerializedName("id")
     private Integer id;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("project_no")
     private String projectNo;
 
-    @Field(type = FieldType.Text , analyzer = "thai")
+    @Field(type = FieldType.Keyword)
     @SerializedName("title_th")
     @Nullable
     private String titleTH;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("title_en")
     @Nullable
     private String titleEN;
 
-    @Field(type = FieldType.Text , analyzer = "thai")
+    @Field(type = FieldType.Keyword)
     @SerializedName("abstract_text")
     @Nullable
     private String abstractText;
@@ -47,24 +45,24 @@ public class Project {
     @SerializedName("semester")
     private Integer semester;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     @SerializedName("section_id")
     @Nullable
     private String sectionId;
 
-    @Field(type = FieldType.Integer)
+    @Field(type = FieldType.Keyword)
     @SerializedName("program_id")
     private Integer programId;
 
-    @Field(type = FieldType.Object)
+    @Field(type = FieldType.Nested)
     @SerializedName("program")
     private Program program;
 
-    @Field(type = FieldType.Integer)
+    @Field(type = FieldType.Keyword)
     @SerializedName("course_id")
     private Integer courseId;
 
-    @Field(type = FieldType.Object)
+    @Field(type = FieldType.Nested)
     @SerializedName("course")
     private Course course;
 
@@ -87,5 +85,5 @@ public class Project {
     @Field(type = FieldType.Text)
     @SerializedName("updated_at")
     @Nullable
-    private String updated_at;
+    private String updatedAt;
 }
