@@ -91,17 +91,17 @@ public class ProjectService {
                     subCriteria = new Criteria(subfield).contains(searchInput);
                 } else {
                     subCriteria = subCriteria.or(new Criteria(subfield).contains(searchInput));
-                    System.out.println(subCriteria);
                 }
             }
 
             if (subCriteria != null) {
-                criteria = criteria.and(subCriteria);
+                criteria = criteria.subCriteria(subCriteria);
             }
         }
 
         return criteria;
     }
+
 
     private Criteria buildCriteriaForSingleInput(List<String> fields, String searchInput) {
         Criteria criteria = new Criteria();
