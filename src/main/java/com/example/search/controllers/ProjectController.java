@@ -51,7 +51,8 @@ public class ProjectController {
                                                        @RequestParam("searchInputs") String searchInputs) {
         try {
             List<String> fieldList = Arrays.asList(fields.split(","));
-            List<String> searchInputList = Arrays.asList(searchInputs.split(","));
+            List<String> searchInputList = Arrays.asList(searchInputs.split(",",-1));
+            System.out.println(searchInputList.size());
             List<Project> projects = projectService.getProjectsBySelectedFields(fieldList, searchInputList);
             return ResponseEntity.status(HttpStatus.OK).body(projects);
         } catch (Exception e) {

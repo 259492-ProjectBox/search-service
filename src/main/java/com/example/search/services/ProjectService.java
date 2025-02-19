@@ -13,6 +13,7 @@ import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,8 @@ public class ProjectService {
     private void setPresignedUrlsForProjectResources(List<ProjectResource> projectResources) {
         if (projectResources != null) {
             for (ProjectResource projectResource : projectResources) {
-                if (projectResource.getResourceType().getTypeName().equals("url")) {
+                if (projectResource != null && projectResource.getResourceType() != null &&
+                        projectResource.getResourceType().getTypeName().equals("url")) {
                     continue;
                 }
                 String bucketName = "projects";
@@ -40,18 +42,19 @@ public class ProjectService {
         }
     }
 
+
     public List<Project> getPresignedURLForProjectResources(List<Project> projects) {
-        if (projects == null || projects.isEmpty()) {
-            return projects;
+        if (projects != null && !projects.isEmpty()) {
+            for (Project project : projects) {
+                List<ProjectResource> projectResources = project.getProjectResources();
+                if (projectResources != null) {
+                    setPresignedUrlsForProjectResources(projectResources);
+                }
+            }
         }
-
-        for (Project project : projects) {
-            List<ProjectResource> projectResources = project.getProjectResources();
-            setPresignedUrlsForProjectResources(projectResources);
-        }
-
         return projects;
     }
+
 
     public List<Project> getProjectsBySelectedFields(List<String> fields, List<String> searchInputList) {
         Criteria criteria = buildCriteriaForMultipleInputs(fields, searchInputList);
@@ -69,18 +72,36 @@ public class ProjectService {
         }
 
         Criteria criteria = new Criteria();
-
         for (int i = 0; i < fields.size(); i++) {
             String searchInput = searchInputList.get(i).trim();
-            String[] tokens = searchInput.split("\\s+");
-            for (String token : tokens) {
-                criteria = criteria.and(new Criteria(fields.get(i)).contains(token));
+
+            if (searchInput.isEmpty()) {
+                continue;
+            }
+
+            String[] subfields = fields.get(i).split("/");
+
+            Criteria subCriteria = null;
+            for (String subfield : subfields) {
+                if (subfield.isEmpty()) {
+                    continue;
+                }
+
+                if (subCriteria == null) {
+                    subCriteria = new Criteria(subfield).contains(searchInput);
+                } else {
+                    subCriteria = subCriteria.or(new Criteria(subfield).contains(searchInput));
+                    System.out.println(subCriteria);
+                }
+            }
+
+            if (subCriteria != null) {
+                criteria = criteria.and(subCriteria);
             }
         }
 
         return criteria;
     }
-
 
     private Criteria buildCriteriaForSingleInput(List<String> fields, String searchInput) {
         Criteria criteria = new Criteria();
@@ -114,12 +135,15 @@ public class ProjectService {
 
     public Optional<Project> getProjectById(Integer id) {
         Optional<Project> project = projectRepository.findById(id);
-        project.ifPresent(p -> {
-            List<ProjectResource> projectResources = p.getProjectResources();
+        if (project.isPresent()) {
+            List<ProjectResource> projectResources = project.get().getProjectResources();
             setPresignedUrlsForProjectResources(projectResources);
-        });
+        } else {
+            System.out.println("Project not found with ID: " + id);
+        }
         return project;
     }
+
 
     public void updateProject(Project project) {
         if (project.getId() == null) {
