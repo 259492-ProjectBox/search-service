@@ -22,6 +22,7 @@ public class RabbitMQConsumer {
             ProjectMessage projectMessage = gson.fromJson(messageStr, ProjectMessage.class);
             String operation = projectMessage.getOperation();
             Project project = projectMessage.getData();
+            System.out.println(project.toString());
             switch (operation.toLowerCase()) {
                 case "create":
                     projectService.createProject(project);
