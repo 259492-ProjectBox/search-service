@@ -44,6 +44,10 @@ public class Staff {
     @SerializedName("email")
     private String email;
 
+    @Field(type = FieldType.Boolean)
+    @SerializedName("is_resigned")
+    private Boolean isResigned;
+
     @Field(type = FieldType.Keyword)
     @SerializedName("program_id")
     private Integer programId;
