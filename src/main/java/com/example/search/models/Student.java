@@ -14,7 +14,7 @@ public class Student {
     @Id
     @Field(type = FieldType.Keyword)
     @SerializedName("id")
-    private String id;
+    private Integer id;
 
     @Field(type = FieldType.Keyword)
     @SerializedName("student_id")
