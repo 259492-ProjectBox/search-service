@@ -37,7 +37,7 @@ public class ProjectService {
                 String bucketName = "projects";
                 String path = projectResource.getPath();
                 String objectName = path.substring((bucketName + "/").length());
-                projectResource.setUrl(uploadService.getPresignedURL(bucketName, objectName));
+                projectResource.setUrl(uploadService.getPresignedURL(bucketName, objectName , projectResource.getFileExtension().getMimeType()));
             }
         }
     }

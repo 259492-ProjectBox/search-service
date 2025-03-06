@@ -49,6 +49,14 @@ public class ProjectResource {
     @SerializedName("resource_type")
     private ResourceType resourceType;
 
+    @Field(type = FieldType.Keyword)
+    @SerializedName("file_extension_id")
+    private String fileExtensionId;
+
+    @Field(type = FieldType.Object)
+    @SerializedName("file_extension")
+    private FileExtension fileExtension;
+
     @Field(type = FieldType.Text)
     @SerializedName("created_at")
     private String createdAt;
