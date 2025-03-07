@@ -105,10 +105,14 @@ public class ProjectService {
 
     private Criteria buildCriteriaForSingleInput(List<String> fields, String searchInput) {
         Criteria criteria = new Criteria();
-        String[] tokens = searchInput.trim().split("\\s+");
-        for (String token : tokens) {
-            for (String field : fields) {
-                criteria = criteria.or(new Criteria(field).contains(token));
+        for (String field : fields) {
+            try {
+                int numericValue = Integer.parseInt(searchInput);
+                if (numericValue > 0) {
+                    criteria = criteria.or(new Criteria(field).is(numericValue));
+                }
+            } catch (NumberFormatException e) {
+                criteria = criteria.or(new Criteria(field).contains(searchInput));
             }
         }
         return criteria;
