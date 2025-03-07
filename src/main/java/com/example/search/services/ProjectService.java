@@ -105,6 +105,8 @@ public class ProjectService {
 
     private Criteria buildCriteriaForSingleInput(List<String> fields, String searchInput) {
         Criteria criteria = new Criteria();
+        searchInput = searchInput.trim();
+
         for (String field : fields) {
             try {
                 int numericValue = Integer.parseInt(searchInput);
@@ -117,6 +119,7 @@ public class ProjectService {
         }
         return criteria;
     }
+
 
     private List<Project> executeSearchQuery(Criteria criteria) {
         Query searchQuery = new CriteriaQuery(criteria);
