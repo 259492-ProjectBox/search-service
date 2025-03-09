@@ -27,12 +27,12 @@ public class Project {
     @Nullable
     private String titleTH;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Keyword , analyzer = "thai")
     @SerializedName("title_en")
     @Nullable
     private String titleEN;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Keyword , analyzer = "thai")
     @SerializedName("abstract_text")
     @Nullable
     private String abstractText;
