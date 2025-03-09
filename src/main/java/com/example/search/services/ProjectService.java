@@ -108,14 +108,7 @@ public class ProjectService {
         searchInput = searchInput.trim();
 
         for (String field : fields) {
-            try {
-                int numericValue = Integer.parseInt(searchInput);
-                if (numericValue > 0) {
-                    criteria = criteria.or(new Criteria(field).is(numericValue));
-                }
-            } catch (NumberFormatException e) {
-                criteria = criteria.or(new Criteria(field).contains(searchInput));
-            }
+           criteria = criteria.or(new Criteria(field).contains(searchInput));
         }
         return criteria;
     }
