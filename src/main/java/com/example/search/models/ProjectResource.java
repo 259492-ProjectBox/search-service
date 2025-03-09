@@ -37,6 +37,11 @@ public class ProjectResource {
     @Nullable
     private String url;
 
+    @Field(type = FieldType.Text)
+    @SerializedName("preview_url")
+    @Nullable
+    private String previewUrl;
+
     @Field(type = FieldType.Nested)
     @SerializedName("pdf")
     private PDF pdf;

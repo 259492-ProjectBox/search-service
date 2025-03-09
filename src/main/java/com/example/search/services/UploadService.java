@@ -15,11 +15,10 @@ public class UploadService {
     @Autowired
     private MinioClient minioClient;
 
-    public String getPresignedURL(String bucketName, String objectName , String fileExtension) {
+    public String getPreviewPresignedURL(String bucketName, String objectName , String fileExtension) {
         try {
             Map<String, String> reqParams = new HashMap<>();
             reqParams.put("response-content-type", fileExtension);
-
             int duration = 60 * 60;
             return minioClient.getPresignedObjectUrl(
                     GetPresignedObjectUrlArgs.builder()
@@ -28,6 +27,22 @@ public class UploadService {
                             .object(objectName)
                             .expiry(duration)
                             .extraQueryParams(reqParams)
+                            .build()
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred: " + e.getMessage());
+        }
+    }
+
+    public String getPresignedURL(String bucketName, String objectName ) {
+        try {
+            int duration = 60 * 60;
+            return minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .method(Method.GET)
+                            .bucket(bucketName)
+                            .object(objectName)
+                            .expiry(duration)
                             .build()
             );
         } catch (Exception e) {
