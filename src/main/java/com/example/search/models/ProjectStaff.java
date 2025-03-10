@@ -31,11 +31,11 @@ public class ProjectStaff {
     @SerializedName("last_name_th")
     private String lastNameTH;
 
-    @Field(type = FieldType.Keyword , analyzer = "thai")
+    @Field(type = FieldType.Keyword , normalizer = "lowercase")
     @SerializedName("first_name_en")
     private String firstNameEN;
 
-    @Field(type = FieldType.Keyword , analyzer = "thai")
+    @Field(type = FieldType.Keyword , normalizer = "lowercase")
     @SerializedName("last_name_en")
     private String lastNameEN;
 
