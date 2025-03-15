@@ -9,6 +9,7 @@ import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.data.elasticsearch.core.query.highlight.Highlight;
+import org.springframework.data.elasticsearch.core.query.highlight.HighlightField;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightParameters;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -119,48 +121,35 @@ public class ProjectService {
         return criteria;
     }
 
-    private String getSnippetFromHit(SearchHit<Project> hit) {
-        // Assuming the highlight field is named "content"
-        if (hit.getHighlightFields().containsKey("content")) {
-            List<String> highlights = hit.getHighlightFields().get("content");
-            if (!highlights.isEmpty()) {
-                return highlights.getFirst();
-            }
-        }
-        return null;
-    }
-
     private List<Project> executeSearchQuery(Criteria criteria) {
         Query searchQuery = new CriteriaQuery(criteria);
         searchQuery.addSourceFilter(new FetchSourceFilterBuilder()
                 .withIncludes("*")
-                .withExcludes("projectResources.pdf")
+                .withExcludes("projectResources.pdf")  // Uncomment if needed
                 .build());
 
-       /* HighlightQuery highlightQuery = new HighlightQuery();
-        highlightQuery.setHighlightFields(new HighlightBuilder().field("content")
-                .preTags("<em>")
-                .postTags("</em>")
-                .fragmentSize(50)
-                .numOfFragments(1)
-        );
-        searchQuery.setHighlightQuery(highlightQuery);
-*/
         final SearchHits<Project> searchResponse = elasticsearchOperations.search(searchQuery, Project.class);
-        List<Project> projectList = new ArrayList<>();
-        searchResponse.getSearchHits().forEach(hit -> {
-            Project project = hit.getContent();
-            String snippet = getSnippetFromHit(hit);
-            project.setSnippet(snippet);
-            projectList.add(project);
-        });
+        List<Project> projectList = searchResponse.getSearchHits().stream()
+                .map(SearchHit::getContent)
+                .collect(Collectors.toList());
 
         return getPresignedURLForProjectResources(projectList);
     }
+
     public List<Project> getByPDFContent(String input) {
-        List<Project> projects = projectRepository.getByPDFContent(input);
+        List<SearchHit<Project>> searchHits = projectRepository.getByPDFContent(input);
+        List<Project> projects = new ArrayList<>();
+
+        for (SearchHit<Project> searchHit : searchHits) {
+            Project project = searchHit.getContent();
+            List<String> highlightedContents = searchHit.getHighlightField("projectResources.pdf.pages.content");
+            project.setHighlightedContents(highlightedContents);
+            projects.add(project);
+        }
+
         return getPresignedURLForProjectResources(projects);
     }
+
 
     public Optional<Project> getProjectById(Integer id) {
         Optional<Project> project = projectRepository.findById(id);
