@@ -58,17 +58,9 @@ public class Project {
     @SerializedName("program")
     private Program program;
 
-    @Field(type = FieldType.Keyword)
-    @SerializedName("course_id")
-    private Integer courseId;
-
-    @Field(type = FieldType.Nested)
-    @SerializedName("course")
-    private Course course;
-
     @Field(type = FieldType.Nested)
     @SerializedName("staffs")
-    private List<ProjectStaff> staffs;
+    private List<Staff> staffs;
 
     @Field(type = FieldType.Nested)
     @SerializedName("members")
@@ -78,6 +70,10 @@ public class Project {
     @SerializedName("project_resources")
     private List<ProjectResource> projectResources;
 
+    @Field(type = FieldType.Nested)
+    @SerializedName("keywords")
+    private List<Keyword> keywords;
+
     @Field(type = FieldType.Text)
     @SerializedName("created_at")
     private String createdAt;
@@ -86,4 +82,7 @@ public class Project {
     @SerializedName("updated_at")
     @Nullable
     private String updatedAt;
+
+    @Field(type = FieldType.Text)
+    private String snippet;
 }

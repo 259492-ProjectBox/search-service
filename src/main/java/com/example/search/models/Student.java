@@ -46,14 +46,6 @@ public class Student {
     private Integer academicYear;
 
     @Field(type = FieldType.Keyword)
-    @SerializedName("course_id")
-    private Integer courseId;
-
-    @Field(type = FieldType.Nested)
-    @SerializedName("course")
-    private Course course;
-
-    @Field(type = FieldType.Keyword)
     @SerializedName("program_id")
     private Integer programId;
 
