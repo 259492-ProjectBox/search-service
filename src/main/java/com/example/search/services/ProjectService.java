@@ -44,7 +44,6 @@ public class ProjectService {
         }
     }
 
-
     public List<Project> getPresignedURLForProjectResources(List<Project> projects) {
         if (projects != null && !projects.isEmpty()) {
             for (Project project : projects) {
@@ -56,7 +55,6 @@ public class ProjectService {
         }
         return projects;
     }
-
 
     public List<Project> getProjectsBySelectedFields(List<String> fields, List<String> searchInputList) {
         Criteria criteria = buildCriteriaForMultipleInputs(fields, searchInputList);
@@ -104,7 +102,6 @@ public class ProjectService {
         return criteria;
     }
 
-
     private Criteria buildCriteriaForSingleInput(List<String> fields, String searchInput) {
         Criteria criteria = new Criteria();
         searchInput = searchInput.trim().toLowerCase();
@@ -149,8 +146,6 @@ public class ProjectService {
         );
         searchQuery.setHighlightQuery(highlightQuery);
 */
-
-
         final SearchHits<Project> searchResponse = elasticsearchOperations.search(searchQuery, Project.class);
         List<Project> projectList = new ArrayList<>();
         searchResponse.getSearchHits().forEach(hit -> {

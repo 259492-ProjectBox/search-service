@@ -70,6 +70,10 @@ public class Project {
     @SerializedName("project_resources")
     private List<ProjectResource> projectResources;
 
+    @Field(type = FieldType.Boolean)
+    @SerializedName("is_public")
+    private Boolean isPublic;
+
     @Field(type = FieldType.Nested)
     @SerializedName("keywords")
     private List<Keyword> keywords;
