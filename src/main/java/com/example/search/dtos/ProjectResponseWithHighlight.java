@@ -1,19 +1,18 @@
-package com.example.search.models;
+package com.example.search.dtos;
 
+
+import com.example.search.models.*;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.annotations.HighlightField;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 @Data
-@Document(indexName = "projects")
-public class Project {
+public class ProjectResponseWithHighlight {
     @Id
     @Field(type = FieldType.Keyword)
     @SerializedName("id")
@@ -88,8 +87,7 @@ public class Project {
     @Nullable
     private String updatedAt;
 
-    @Field(type = FieldType.Text)
-    @SerializedName("highlighted_contents")
-    @Nullable
-    private List<String> highlightedContents;
+    @Field(type = FieldType.Object)
+    @SerializedName("highlight")
+    Highlight highlight;
 }

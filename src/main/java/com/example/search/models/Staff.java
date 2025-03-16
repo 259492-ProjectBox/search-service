@@ -7,20 +7,19 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.util.List;
-
 @Data
+@Document(indexName = "project_staffs")
 public class Staff {
     @Id
     @Field(type = FieldType.Keyword)
     @SerializedName("id")
     private Integer id;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     @SerializedName("prefix_th")
     private String prefixTH;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     @SerializedName("prefix_en")
     private String prefixEN;
 
@@ -32,11 +31,11 @@ public class Staff {
     @SerializedName("last_name_th")
     private String lastNameTH;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Keyword , normalizer = "lowercase")
     @SerializedName("first_name_en")
     private String firstNameEN;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Keyword , normalizer = "lowercase")
     @SerializedName("last_name_en")
     private String lastNameEN;
 
@@ -45,8 +44,8 @@ public class Staff {
     private String email;
 
     @Field(type = FieldType.Boolean)
-    @SerializedName("is_resigned")
-    private Boolean isResigned;
+    @SerializedName("is_active")
+    private Boolean isActive;
 
     @Field(type = FieldType.Keyword)
     @SerializedName("program_id")
@@ -56,4 +55,7 @@ public class Staff {
     @SerializedName("program")
     private Program program;
 
+    @Field(type = FieldType.Nested)
+    @SerializedName("project_role")
+    private ProjectRole projectRole;
 }

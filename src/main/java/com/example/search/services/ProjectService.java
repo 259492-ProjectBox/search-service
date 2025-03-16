@@ -5,17 +5,19 @@ import com.example.search.models.ProjectResource;
 import com.example.search.repositories.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.query.Criteria;
-import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
-import org.springframework.data.elasticsearch.core.query.FetchSourceFilterBuilder;
-import org.springframework.data.elasticsearch.core.query.Query;
+import org.springframework.data.elasticsearch.core.query.*;
+import org.springframework.data.elasticsearch.core.query.highlight.Highlight;
+import org.springframework.data.elasticsearch.core.query.highlight.HighlightField;
+import org.springframework.data.elasticsearch.core.query.highlight.HighlightParameters;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,14 +36,15 @@ public class ProjectService {
                         projectResource.getResourceType().getTypeName().equals("url")) {
                     continue;
                 }
-                String bucketName = "projects";
+                assert projectResource != null;
                 String path = projectResource.getPath();
+                assert path != null;
+                String bucketName = "projects";
                 String objectName = path.substring((bucketName + "/").length());
                 projectResource.setUrl(uploadService.getPresignedURL(bucketName, objectName , projectResource.getFileExtension().getMimeType()));
             }
         }
     }
-
 
     public List<Project> getPresignedURLForProjectResources(List<Project> projects) {
         if (projects != null && !projects.isEmpty()) {
@@ -54,7 +57,6 @@ public class ProjectService {
         }
         return projects;
     }
-
 
     public List<Project> getProjectsBySelectedFields(List<String> fields, List<String> searchInputList) {
         Criteria criteria = buildCriteriaForMultipleInputs(fields, searchInputList);
@@ -73,7 +75,7 @@ public class ProjectService {
 
         Criteria criteria = new Criteria();
         for (int i = 0; i < fields.size(); i++) {
-            String searchInput = searchInputList.get(i).trim();
+            String searchInput = searchInputList.get(i).trim().toLowerCase();
 
             if (searchInput.isEmpty()) {
                 continue;
@@ -102,10 +104,9 @@ public class ProjectService {
         return criteria;
     }
 
-
     private Criteria buildCriteriaForSingleInput(List<String> fields, String searchInput) {
         Criteria criteria = new Criteria();
-        searchInput = searchInput.trim();
+        searchInput = searchInput.trim().toLowerCase();
 
         for (String field : fields) {
            criteria = criteria.or(new Criteria(field).contains(searchInput));
@@ -113,25 +114,35 @@ public class ProjectService {
         return criteria;
     }
 
-
     private List<Project> executeSearchQuery(Criteria criteria) {
         Query searchQuery = new CriteriaQuery(criteria);
         searchQuery.addSourceFilter(new FetchSourceFilterBuilder()
                 .withIncludes("*")
-                .withExcludes("projectResources.pdf")
+                .withExcludes("projectResources.pdf")  // Uncomment if needed
                 .build());
 
         final SearchHits<Project> searchResponse = elasticsearchOperations.search(searchQuery, Project.class);
-        List<Project> projectList = new ArrayList<>();
-        searchResponse.getSearchHits().forEach(hit -> projectList.add(hit.getContent()));
+        List<Project> projectList = searchResponse.getSearchHits().stream()
+                .map(SearchHit::getContent)
+                .collect(Collectors.toList());
 
         return getPresignedURLForProjectResources(projectList);
     }
 
     public List<Project> getByPDFContent(String input) {
-        List<Project> projects = projectRepository.getByPDFContent(input);
+        List<SearchHit<Project>> searchHits = projectRepository.getByPDFContent(input);
+        List<Project> projects = new ArrayList<>();
+
+        for (SearchHit<Project> searchHit : searchHits) {
+            Project project = searchHit.getContent();
+            List<String> highlightedContents = searchHit.getHighlightField("projectResources.pdf.pages.content");
+            project.setHighlightedContents(highlightedContents);
+            projects.add(project);
+        }
+
         return getPresignedURLForProjectResources(projects);
     }
+
 
     public Optional<Project> getProjectById(Integer id) {
         Optional<Project> project = projectRepository.findById(id);

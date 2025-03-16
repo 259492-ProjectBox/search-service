@@ -1,8 +1,8 @@
 package com.example.search.repositories;
 
 import com.example.search.models.Project;
-import org.springframework.data.elasticsearch.annotations.Query;
-import org.springframework.data.elasticsearch.annotations.SourceFilters;
+import org.springframework.data.elasticsearch.annotations.*;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,28 +12,29 @@ import java.util.List;
 public interface ProjectRepository extends ElasticsearchRepository<Project, Integer> {
 
     @Query("""
-        {
-          "nested": {
+    {
+        "nested": {
             "path": "projectResources.pdf.pages",
             "query": {
-              "bool": {
-                "must": [
-                  {
-                    "match": {
-                      "projectResources.pdf.pages.content": {
+                "match": {
+                    "projectResources.pdf.pages.content": {
                         "query": "?0",
                         "fuzziness": "AUTO"
-                      }
                     }
-                  }
-                ]
-              }
+                }
             }
-          }
         }
-        """)
+    }
+""")
+    @Highlight(fields = {
+            @HighlightField(name = "projectResources.pdf.pages.content")
+            },
+            parameters = @HighlightParameters(
+                    preTags = "<em>",
+                    postTags = "</em>",
+                    fragmentSize = 250,
+                    numberOfFragments = 1
+            ))
     @SourceFilters(excludes = "*.pdf")
-    List<Project> getByPDFContent(String input);
-
-
+    List<SearchHit<Project>> getByPDFContent(String input);
 }
