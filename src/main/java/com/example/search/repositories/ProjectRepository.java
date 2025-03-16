@@ -30,9 +30,9 @@ public interface ProjectRepository extends ElasticsearchRepository<Project, Inte
             @HighlightField(name = "projectResources.pdf.pages.content")
             },
             parameters = @HighlightParameters(
-                    preTags = "<em>",
-                    postTags = "</em>",
-                    fragmentSize = 250,
+                    preTags = "<p class=\"pdf-content\">",
+                    postTags = "</p>",
+                    fragmentSize = 500,
                     numberOfFragments = 1
             ))
     @SourceFilters(excludes = "*.pdf")
